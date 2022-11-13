@@ -22,4 +22,4 @@ python main.py
 
 ### Анимация игры:
 
-![](files/gif/game.gif)
+![](files/example/image.png)
