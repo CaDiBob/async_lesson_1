@@ -139,7 +139,7 @@ def draw(canvas):
     canvas.nodelay(True)
     coroutines = get_coroutines_for_stars(canvas, height, width)
     start_row_centre, start_column_centre = get_center_on_canvas(height, width)
-    frame = animate_spaceship(
+    spaceship = animate_spaceship(
         canvas,
         start_row_centre,
         start_column_centre,
@@ -147,7 +147,7 @@ def draw(canvas):
         width,
         frames,
     )
-    coroutines.append(frame)
+    coroutines.append(spaceship)
     while True:
         for coroutine in coroutines:
             try:
