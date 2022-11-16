@@ -109,7 +109,7 @@ def get_place_on_canvas(y, x):
     return row, column
 
 
-def get_coroutines(canvas, y, x):
+def get_coroutines_for_stars(canvas, y, x):
     coroutines = []
     for coroutine in range(14):
         coroutine = blink(
@@ -136,7 +136,7 @@ def draw(canvas):
     height, width = get_size_free_space(canvas)
     canvas.border()
     canvas.nodelay(True)
-    coroutines = get_coroutines(canvas, height, width)
+    coroutines = get_coroutines_for_stars(canvas, height, width)
     start_row_centre, start_column_centre = get_center_on_canvas(height, width)
     frame = animate_spaceship(
         canvas,
