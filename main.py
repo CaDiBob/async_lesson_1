@@ -17,7 +17,7 @@ TIC_TIMEOUT = 0.1
 
 
 async def animate_spaceship(canvas, row, column, height, width, frames):
-    frame, _ = frames
+    frame, *_ = frames
     frame_width, frame_height = get_frame_size(frame)
     height -= frame_height
     width -= frame_width

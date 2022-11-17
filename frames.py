@@ -8,5 +8,5 @@ def get_frames():
     for frame in files:
         with open(os.path.join(folder, frame))as file:
             rocket_frame = file.read()
-        frames.append(rocket_frame)
+        frames.extend([rocket_frame, rocket_frame])
     return frames
