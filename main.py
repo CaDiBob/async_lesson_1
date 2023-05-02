@@ -5,7 +5,7 @@ import random
 
 from itertools import cycle
 
-from frames import get_frames
+from frames import get_rocket_frames, get_garbage_frame
 from curses_tools import (
     draw_frame,
     read_controls,
@@ -14,6 +14,22 @@ from curses_tools import (
 
 
 TIC_TIMEOUT = 0.1
+
+
+async def fly_garbage(canvas, column, garbage_frame, speed=0.5):
+    """Animate garbage, flying from top to bottom. Сolumn position will stay same, as specified on start."""
+    rows_number, columns_number = canvas.getmaxyx()
+
+    column = max(column, 0)
+    column = min(column, columns_number - 1)
+
+    row = 0
+
+    while row < rows_number:
+        draw_frame(canvas, row, column, garbage_frame)
+        await asyncio.sleep(0)
+        draw_frame(canvas, row, column, garbage_frame, negative=True)
+        row += speed
 
 
 async def animate_spaceship(canvas, row, column, height, width, frames):
@@ -133,7 +149,7 @@ def get_center_on_canvas(y, x):
 
 
 def draw(canvas):
-    frames = get_frames()
+    frames = get_rocket_frames()
     height, width = get_size_free_space(canvas)
     canvas.border()
     canvas.nodelay(True)
@@ -147,6 +163,12 @@ def draw(canvas):
         width,
         frames,
     )
+    garbage = fly_garbage(
+        canvas,
+        column=50,
+        garbage_frame=get_garbage_frame()[0],
+    )
+    coroutines.append(garbage)
     coroutines.append(spaceship)
     while True:
         for coroutine in coroutines:
