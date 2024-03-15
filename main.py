@@ -48,13 +48,14 @@ async def fly_garbage(canvas, column, garbage_frame, speed=0.5):
 
 
 async def animate_spaceship(canvas, row, column, height, width, frames):
+    global coroutines
     frame, *_ = frames
     frame_width, frame_height = get_frame_size(frame)
     height -= frame_height
     width -= frame_width
     row_speed = column_speed = 0
     for frame in cycle(frames):
-        rows_direction, columns_direction, _ = read_controls(canvas)
+        rows_direction, columns_direction, space = read_controls(canvas)
         row_speed, column_speed = update_speed(row_speed, column_speed, rows_direction, columns_direction)
         if rows_direction or columns_direction:
             row += row_speed
@@ -65,6 +66,10 @@ async def animate_spaceship(canvas, row, column, height, width, frames):
             row = min(row, height)
             column = min(column, width)
         draw_frame(canvas, row, column, frame)
+        if space:
+            fire_control = 2
+            fire_speed = -1
+            coroutines.append(fire(canvas, row, column + fire_control, fire_speed))
         await asyncio.sleep(0)
         draw_frame(canvas, row, column, frame, negative=True)
 
