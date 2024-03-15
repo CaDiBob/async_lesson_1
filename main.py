@@ -26,9 +26,9 @@ async def fill_orbit_with_garbage(canvas):
             random.randint(2, width-2),
             random.choice(garbage_frames),
         )
-        await get_timeout(10)
+        await sleep(10)
         coroutines.append(trash)
-        await get_timeout(10)
+        await sleep(10)
 
 
 async def fly_garbage(canvas, column, garbage_frame, speed=0.5):
@@ -95,8 +95,8 @@ async def fire(canvas, start_row, start_column, rows_speed=-0.3, columns_speed=0
         column += columns_speed
 
 
-async def get_timeout(seconds):
-    iterations = int(seconds)
+async def sleep(tics=1):
+    iterations = int(tics)
     for _ in range(iterations):
         await asyncio.sleep(0)
 
@@ -105,16 +105,16 @@ async def blink(
         canvas, row, column, symbol, state_1, state_2, state_3, state_4):
     while True:
         canvas.addstr(row, column, symbol, curses.A_DIM)
-        await get_timeout(state_1)
+        await sleep(state_1)
 
         canvas.addstr(row, column, symbol)
-        await get_timeout(state_2)
+        await sleep(state_2)
 
         canvas.addstr(row, column, symbol, curses.A_BOLD)
-        await get_timeout(state_3)
+        await sleep(state_3)
 
         canvas.addstr(row, column, symbol)
-        await get_timeout(state_4)
+        await sleep(state_4)
 
 
 def get_size_free_space(canvas):
