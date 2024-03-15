@@ -7,6 +7,7 @@ import random
 from itertools import cycle
 
 from frames import get_rocket_frames, get_garbage_frames
+from physics import update_speed
 from curses_tools import (
     draw_frame,
     read_controls,
@@ -51,13 +52,15 @@ async def animate_spaceship(canvas, row, column, height, width, frames):
     frame_width, frame_height = get_frame_size(frame)
     height -= frame_height
     width -= frame_width
+    row_speed = column_speed = 0
     for frame in cycle(frames):
         rows_direction, columns_direction, _ = read_controls(canvas)
+        row_speed, column_speed = update_speed(row_speed, column_speed, rows_direction, columns_direction)
         if rows_direction or columns_direction:
-            row += rows_direction
-            column += columns_direction
-            row = max(1, row)
-            column = max(1, column)
+            row += row_speed
+            column += column_speed
+            row = max(2, row)
+            column = max(2, column)
 
             row = min(row, height)
             column = min(column, width)
@@ -118,7 +121,7 @@ async def blink(
 
 
 def get_size_free_space(canvas):
-    border = 2
+    border = 5
     raw_height, raw_width = canvas.getmaxyx()
     height = raw_height - border
     width = raw_width - border
