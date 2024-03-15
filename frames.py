@@ -12,7 +12,7 @@ def get_rocket_frames():
     return frames
 
 
-def get_garbage_frame():
+def get_garbage_frames():
     frames = []
     folder = os.path.join('files', 'trash')
     files = sorted(os.listdir(folder))
